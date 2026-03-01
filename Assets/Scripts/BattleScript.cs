@@ -8,7 +8,7 @@ public class BattleScript : MonoBehaviour
     public EnemyHandler enemyDamage;
     public KeyCode attackKey = KeyCode.Space;
     public EnemyHandler enemyAlive;
-    public PlayerScript playerAlive;
+    public PlayerScript;
 
     public void Update()
     {
