@@ -7,7 +7,7 @@ public class XPHandler : MonoBehaviour
     public PlayerScript playerScript;
     public UIHandler uiHandler;
     public float lvlUpDmgMultiplier = 10f;
-    public float lvlUpHpMultiplier = 5f;
+    public float lvlUpHpMultiplier = 1.5f;
     public int lvlUpThreshold = 50;
     
     // Update is checking if enemyAlive & if player xp = threshold
@@ -18,9 +18,13 @@ public class XPHandler : MonoBehaviour
             playerScript.playerXp = playerScript.playerXp + enemyHandler.enemyXP;
         }
 
-        if (playerScript.playerXp == lvlUpThreshold)
+        if(playerScript.playerXp == lvlUpThreshold)
         {
             LevelUp();
+            if (playerScript.playerXp > lvlUpThreshold)
+            {
+             LevelUp();   
+            }
         }
     }
 
