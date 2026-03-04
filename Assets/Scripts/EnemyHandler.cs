@@ -22,7 +22,7 @@ public class EnemyHandler : MonoBehaviour
     {
         if (enemyAlive == false)
         {
-            if (resurrectionCounter >= 2)
+            if (resurrectionCounter == 2)
             {
                 Victory();
             }

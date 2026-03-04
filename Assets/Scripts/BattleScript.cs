@@ -8,7 +8,7 @@ public class BattleScript : MonoBehaviour
 
     public void Update()
     {
-        if (enemyHandler.enemyHealth <= 0)
+        if (enemyHandler.enemyHealth == 0)
         {
             enemyHandler.enemyAlive = false;
             Debug.Log("The Marauder has been slain");
@@ -20,10 +20,18 @@ public class BattleScript : MonoBehaviour
             Debug.Log("You have died. Game Over.");
         }
 
-        if (Input.GetKeyDown(attackKey))
+        if (enemyHandler.enemyAlive == false)
         {
-            PlayerAttack();
-            EnemyAttack();
+            
+            
+        }
+        else
+        {
+            if (Input.GetKey(attackKey))
+            {
+                PlayerAttack();
+                EnemyAttack();
+            }
         }
         
     }

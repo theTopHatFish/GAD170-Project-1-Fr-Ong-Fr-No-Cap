@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     public int playerHealth = 100;
-    public float playerDamage = 10f;
+    public float playerDamage = 5f;
     public float playerDamageMult = 1f;
     public int playerLvl = 1;
     public int playerXp = 0;
