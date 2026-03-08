@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class BattleScript : MonoBehaviour
@@ -5,19 +6,27 @@ public class BattleScript : MonoBehaviour
     public PlayerScript playerScript;
     public EnemyHandler enemyHandler;
     public KeyCode attackKey = KeyCode.Space;
+    public int xpMessanger;
 
     public void Update()
     {
         if (enemyHandler.enemyHealth == 0)
         {
-            enemyHandler.enemyAlive = false;
-            Debug.Log("The Marauder has been slain");
+            if (enemyHandler.enemyAlive == true)
+            {
+                enemyHandler.enemyAlive = false;
+                Debug.Log("The Marauder has been slain");
+                xpMessanger = 1;
+            }
         }
 
         if (playerScript.playerHealth <= 0)
         {
-            playerScript.playerAlive = false; 
-            Debug.Log("You have died. Game Over.");
+            if (playerScript.playerAlive == true)
+            {
+                playerScript.playerAlive = false;
+                Debug.Log("You have died. Game Over.");
+            }
         }
 
         if (enemyHandler.enemyAlive == false)
@@ -27,7 +36,7 @@ public class BattleScript : MonoBehaviour
         }
         else
         {
-            if (Input.GetKey(attackKey))
+            if (Input.GetKeyDown(attackKey))
             {
                 PlayerAttack();
                 EnemyAttack();
@@ -38,15 +47,21 @@ public class BattleScript : MonoBehaviour
 
     private void PlayerAttack()
     {
-        enemyHandler.enemyHealth =
-            enemyHandler.enemyHealth - (int)(playerScript.playerDamage * playerScript.playerDamageMult);
-        Debug.Log("You attacked the Marauder for:" + playerScript.playerHealth + "Damage.");
+        playerScript.pEffectiveDmg = (Mathf.RoundToInt(playerScript.playerDamage * playerScript.playerDamageMult));
+        enemyHandler.enemyHealth = enemyHandler.enemyHealth - playerScript.pEffectiveDmg;
+
+    Debug.Log("You attacked the Marauder for:" + playerScript.pEffectiveDmg + " Damage.");
 
     }
 
     private void EnemyAttack()
     {
         playerScript.playerHealth = playerScript.playerHealth - enemyHandler.enemyDamage;
-        Debug.Log("You were attacked for:" + enemyHandler.enemyDamage + "Damage.");
+        Debug.Log("You were attacked for:" + enemyHandler.enemyDamage + " Damage.");
+    }
+
+    private void AttackCheck()
+    {
+        
     }
 }
