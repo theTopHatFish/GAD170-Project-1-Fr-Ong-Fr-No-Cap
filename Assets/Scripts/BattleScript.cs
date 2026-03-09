@@ -6,8 +6,9 @@ public class BattleScript : MonoBehaviour
     public PlayerScript playerScript;
     public EnemyHandler enemyHandler;
     public KeyCode attackKey = KeyCode.Space;
-    public int xpMessanger;
+    public XPHandler xpHandler;
 
+    //Fix the damn DMG overflow.
     public void Update()
     {
         if (enemyHandler.enemyHealth == 0)
@@ -16,7 +17,19 @@ public class BattleScript : MonoBehaviour
             {
                 enemyHandler.enemyAlive = false;
                 Debug.Log("The Marauder has been slain");
-                xpMessanger = 1;
+                xpHandler.XpAllocation();
+            }
+        }
+        else
+        {
+            if (enemyHandler.enemyHealth <= 0)
+            {
+                if (enemyHandler.enemyAlive == true)
+                {
+                    enemyHandler.enemyAlive = false;
+                    Debug.Log("The Marauder has been slain");
+                    xpHandler.XpAllocation();
+                }
             }
         }
 
@@ -45,6 +58,7 @@ public class BattleScript : MonoBehaviour
         
     }
 
+    // I forget why I did pEffectiveDmg but, I believe it was because the math was being weird
     private void PlayerAttack()
     {
         playerScript.pEffectiveDmg = (Mathf.RoundToInt(playerScript.playerDamage * playerScript.playerDamageMult));
@@ -62,6 +76,6 @@ public class BattleScript : MonoBehaviour
 
     private void AttackCheck()
     {
-        
+        // something to stop dmg overflow, still keeps happening and idk how to stop it.
     }
 }

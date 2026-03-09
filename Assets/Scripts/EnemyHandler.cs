@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class EnemyHandler : MonoBehaviour
 {
-    public int enemyHealth = 20;
+    public float enemyHealth = 20;
+    public float enemyMaxHealth = 20;
     public int enemyDamage = 5;
     public int enemyXP = 10;
     public int enemyLevel = 1;
@@ -53,6 +54,7 @@ public class EnemyHandler : MonoBehaviour
         Debug.Log("Another enemy has appeared!");
         if (resurrectionCounter == 1)
         {
+            // The math is screwed. Needs fixing.
             resurrectionRandValue = Random.Range(1,3);
             enemyHealth = enemyHealth + 100 * (resurrectionCounter + 1);
             enemyDamage = enemyDamage * (resurrectionCounter + 1);
