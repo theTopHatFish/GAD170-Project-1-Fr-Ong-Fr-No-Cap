@@ -2,24 +2,26 @@ using UnityEngine;
 
 public class EnemyHandler : MonoBehaviour
 {
+    public XPHandler xpHandler;
     public float enemyHealth = 20;
     public float enemyMaxHealth = 20;
     public int enemyDamage = 5;
     public int enemyXP = 10;
     public int enemyLevel = 1;
-    public string enemyName = "Marauder";
+    public string enemyName;
     public bool enemyAlive = true;
     private int resurrectionCounter = 0;
     private int resurrectionRandValue;
     private bool victMessageDelivered;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
     void Start()
     {
-        
+        enemyName =  "Marauder";
     }
 
-    // Update is called once per frame
+    // The structure of how the enemy resurrects in update (tied to resurrection counter) means
+    // incredibly difficult to modify going forward. Maybe could serparate into further functions, unsure
+    // at this time.
     void Update()
     {
         if (enemyAlive == true)
@@ -46,7 +48,7 @@ public class EnemyHandler : MonoBehaviour
 //"Spawns" more enemies (Im lazy) up to twice (As per assignment outline).
 //Tracks these "Spawns" (Resurrections) via resurrectionCounter.
 //Then uses that to increase the enemy stat values. Rand value to multiply final resurrect stats (Boss)
-//Above code to check resurrection doesn't go higher than 2
+//Above code to check resurrection doesn't go higher than 2.
     private void Resurrect()
     {
         resurrectionCounter = resurrectionCounter + 1;
@@ -56,19 +58,28 @@ public class EnemyHandler : MonoBehaviour
         {
             // The math is screwed. Needs fixing.
             resurrectionRandValue = Random.Range(1,3);
-            enemyHealth = enemyHealth + 100 * (resurrectionCounter + 1);
+            enemyMaxHealth = enemyMaxHealth + 100 * (resurrectionCounter + 1);
+            enemyHealth = enemyMaxHealth;
             enemyDamage = enemyDamage * (resurrectionCounter + 1);
             enemyXP = enemyXP * (resurrectionCounter + 1);
+            xpHandler.EnemyLvlCalc(); // Call XpHandler to calculate new enemy lvl.
         }
         else
         {
             Debug.Log("It's a larger and meaner looking Marauder... He is the boss!");
-            enemyHealth = enemyHealth + 100 * (resurrectionCounter + 1 + resurrectionRandValue);
+            enemyName = "Boss Marauder";
+            enemyMaxHealth = enemyMaxHealth + 100 * (resurrectionCounter + 1 + resurrectionRandValue);
+            enemyHealth = enemyMaxHealth;
             enemyDamage = enemyDamage * (resurrectionCounter + 1 + resurrectionRandValue);
             enemyXP = enemyXP * (resurrectionCounter + 1 + resurrectionRandValue);
+            xpHandler.EnemyLvlCalc(); 
+            // Trying to do basic things like increasing values on lvl up give me appreciation for both
+            // how bad I am at math and also how complex some of the calculations under the hood of 
+            // a game can be.
         }
     }
 
+    
     private void Victory()
     {
         victMessageDelivered = true;

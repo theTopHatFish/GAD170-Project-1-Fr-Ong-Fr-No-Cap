@@ -1,6 +1,6 @@
 using TMPro;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class UIHandler : MonoBehaviour
 {
     public string playerName = "Hero";
@@ -14,7 +14,8 @@ public class UIHandler : MonoBehaviour
     public TextMeshProUGUI enemyNameText;
     public TextMeshProUGUI enemyLvlText;
     public TextMeshProUGUI enemyHpText;
-    
+    public Slider playerHpBar;
+    public Slider enemyHpBar;
     
     
     
@@ -28,7 +29,9 @@ public class UIHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        HealthCheck();
+        XpCheck();
+        UIValueAssign();
     }
     
     //Startup values for UI
@@ -42,7 +45,7 @@ public class UIHandler : MonoBehaviour
         enemyLvlText.text = "Lvl: " + enemyHandler.enemyLevel;
         enemyHpText.text = EnemyHealthAsPercentage() + " % HP";
     }
-
+    
     private float PlayerHealthAsPercentage()
     {                                                                    
       return (playerScript.playerHealth / playerScript.playerMaxHealth) * 100;
@@ -52,5 +55,17 @@ public class UIHandler : MonoBehaviour
     {
         return (enemyHandler.enemyHealth / enemyHandler.enemyMaxHealth) * 100;
     }
-    
+
+    private void HealthCheck()
+    {
+        playerHpBar.value = PlayerHealthAsPercentage();
+        enemyHpBar.value = EnemyHealthAsPercentage();
+    }
+
+    private void XpCheck()
+    {
+        playerLvlText.text = "Lvl: " + playerScript.playerLvl;
+        playerXpText.text = "XP: " + playerScript.playerXp;
+        enemyLvlText.text = "Lvl: " + enemyHandler.enemyLevel;
+    }
 }
