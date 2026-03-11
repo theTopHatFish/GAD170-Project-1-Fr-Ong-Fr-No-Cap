@@ -3,6 +3,7 @@ using UnityEngine;
 public class EnemyHandler : MonoBehaviour
 {
     public XPHandler xpHandler;
+    public PlayerScript playerScript;
     public float enemyHealth = 20;
     public float enemyMaxHealth = 20;
     public int enemyDamage = 5;
@@ -17,6 +18,7 @@ public class EnemyHandler : MonoBehaviour
     void Start()
     {
         enemyName =  "Marauder";
+        Debug.Log("An enemy has appeared! its a: " + enemyLevel + " Lvl Marauder with: " + enemyHealth + " HP!!");
     }
 
     // The structure of how the enemy resurrects in update (tied to resurrection counter) means
@@ -29,7 +31,7 @@ public class EnemyHandler : MonoBehaviour
         }
         else
         {
-            if (resurrectionCounter == 2)
+            if (playerScript.gameOver == true)
             {
                 if(victMessageDelivered==true)
                 { 
@@ -53,7 +55,6 @@ public class EnemyHandler : MonoBehaviour
     {
         resurrectionCounter = resurrectionCounter + 1;
         enemyAlive = true;
-        Debug.Log("Another enemy has appeared!");
         if (resurrectionCounter == 1)
         {
             // The math is screwed. Needs fixing.
@@ -63,16 +64,16 @@ public class EnemyHandler : MonoBehaviour
             enemyDamage = enemyDamage * (resurrectionCounter + 1);
             enemyXP = enemyXP * (resurrectionCounter + 1);
             xpHandler.EnemyLvlCalc(); // Call XpHandler to calculate new enemy lvl.
+            Debug.Log("Another enemy has appeared! its a: " + enemyLevel + " Lvl Marauder with: " + enemyHealth + " HP!!");
         }
         else
         {
-            Debug.Log("It's a larger and meaner looking Marauder... He is the boss!");
-            enemyName = "Boss Marauder";
             enemyMaxHealth = enemyMaxHealth + 100 * (resurrectionCounter + 1 + resurrectionRandValue);
             enemyHealth = enemyMaxHealth;
             enemyDamage = enemyDamage * (resurrectionCounter + 1 + resurrectionRandValue);
             enemyXP = enemyXP * (resurrectionCounter + 1 + resurrectionRandValue);
             xpHandler.EnemyLvlCalc(); 
+            Debug.Log("Another enemy has appeared! its a: " + enemyLevel + " Lvl Marauder with: " + enemyHealth + " HP!!");
             // Trying to do basic things like increasing values on lvl up give me appreciation for both
             // how bad I am at math and also how complex some of the calculations under the hood of 
             // a game can be.
@@ -85,7 +86,7 @@ public class EnemyHandler : MonoBehaviour
         victMessageDelivered = true;
         Debug.Log("Victory!");
         Debug.Log(
-            "The Boss, the final marauder now lies beneath your feet. You have beaten the game, thanks for playing!");
+            "You have reached Lvl 5 and have beaten the game, thanks for playing!");
     }
     
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
@@ -10,6 +11,19 @@ public class PlayerScript : MonoBehaviour
     public int playerXp = 0;
     public bool playerAlive = true;
     public int pEffectiveDmg;
+    public bool gameOver = false;
+    public int playerArmor = 2;
 
+    public void Update()
+    {
+        EndCheck();
+    }
 
+    public void EndCheck()
+    {
+        if (playerLvl == 5)
+        {
+            gameOver = true;
+        }
+    }
 }

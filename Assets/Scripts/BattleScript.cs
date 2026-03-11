@@ -5,8 +5,9 @@ public class BattleScript : MonoBehaviour
 {
     public PlayerScript playerScript;
     public EnemyHandler enemyHandler;
-    public KeyCode attackKey = KeyCode.Space;
+    public KeyCode attackKey = KeyCode.A;
     public XPHandler xpHandler;
+    
 
     //Fix the damn DMG overflow.
     public void Update()
@@ -49,11 +50,15 @@ public class BattleScript : MonoBehaviour
         }
         else
         {
-            if (Input.GetKeyDown(attackKey))
-            {
-                PlayerAttack();
-                EnemyAttack();
-            }
+            //if (xpHandler.lvlAnimation == false)
+            //{
+                if (Input.GetKeyDown(attackKey))
+                {
+                    PlayerAttack();
+                    EnemyAttack();
+                }
+
+            //}
         }
         
     }
@@ -61,17 +66,22 @@ public class BattleScript : MonoBehaviour
     // I forget why I did pEffectiveDmg but, I believe it was because the math was being weird
     private void PlayerAttack()
     {
-        playerScript.pEffectiveDmg = (Mathf.RoundToInt(playerScript.playerDamage * playerScript.playerDamageMult));
-        enemyHandler.enemyHealth = enemyHandler.enemyHealth - playerScript.pEffectiveDmg;
+        if (xpHandler.lvlUpReady == false)
+        {
+            playerScript.pEffectiveDmg = (Mathf.RoundToInt(playerScript.playerDamage * playerScript.playerDamageMult));
+            enemyHandler.enemyHealth = enemyHandler.enemyHealth - playerScript.pEffectiveDmg;
 
-    Debug.Log("You attacked the Marauder for:" + playerScript.pEffectiveDmg + " Damage.");
-
+            Debug.Log("You attacked the Marauder for:" + playerScript.pEffectiveDmg + " Damage."); 
+        }
     }
 
     private void EnemyAttack()
     {
-        playerScript.playerHealth = playerScript.playerHealth - enemyHandler.enemyDamage;
-        Debug.Log("You were attacked for:" + enemyHandler.enemyDamage + " Damage.");
+        if (xpHandler.lvlUpReady == false)
+        {
+            playerScript.playerHealth = (playerScript.playerHealth - enemyHandler.enemyDamage) / playerScript.playerArmor;
+            Debug.Log("You were attacked for:" + enemyHandler.enemyDamage + " Damage.");
+        }
     }
 
     private void AttackCheck()

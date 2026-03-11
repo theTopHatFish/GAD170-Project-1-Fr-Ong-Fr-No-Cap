@@ -16,6 +16,7 @@ public class UIHandler : MonoBehaviour
     public TextMeshProUGUI enemyHpText;
     public Slider playerHpBar;
     public Slider enemyHpBar;
+    public Canvas endGameCanvas;
     
     
     
@@ -32,6 +33,14 @@ public class UIHandler : MonoBehaviour
         HealthCheck();
         XpCheck();
         UIValueAssign();
+        if (playerScript.gameOver == true)
+        {
+            endGameCanvas.enabled = true;
+        }
+        else
+        {
+            endGameCanvas.enabled = false;
+        }
     }
     
     //Startup values for UI
